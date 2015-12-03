@@ -3,8 +3,8 @@ Redmine::Plugin.register :redmine_quarter do
   author 'Alexey Poliansky'
   description 'Check workflow in current project of last three months'
   version '0.0.1'
-  url 'http://support.gretta.ru/plugin_quarter'
-  author_url 'http://support.gretta.ru/poliansky'
+  url 'https://github.com/lefin17/quarter'
+  author_url 'https://github.com/lefin17'
  
  
  # permission :redmine_quarter, { :redmine_quarter => [:index] }, :public => true 
