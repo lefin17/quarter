@@ -1,0 +1,11 @@
+# English strings go here for Rails i18n
+en:
+  # my_label: "My label"
+  permission_view_quarter: "KPI in quarter"
+  project_module_quarter: "KPI in last quarter"
+  quarter_full_name: "Full Name"
+  quarter_assigned: "Assigned"
+  quarter_closed: "Issues Closed"
+  quarter_canceled: "Issues Canceled"
+  quarter_kpi: KPI
+  

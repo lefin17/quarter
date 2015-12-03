@@ -1,0 +1,11 @@
+# Russian strings go here for Rails i18n
+ru:
+  # my_label: "My label"
+  permission_view_quarter: KPI за квартал
+  project_module_quarter: KPI за последний квартал
+  quarter_full_name: "ФИО"
+  quarter_assigned: "Назначено"
+  quarter_closed: "Закрыто"
+  quarter_canceled: "Отклонено"
+  quarter_kpi: "KPI"
+  

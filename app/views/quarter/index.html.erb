@@ -1,0 +1,24 @@
+<h1>KPI</h1>
+
+<% @periods.each do |p| %>
+ 
+<h2><%= p[:name] %></h2>
+<table class="list issues">
+    <tr>
+	<th><%= l(:quarter_full_name) %></th>
+	<th><%= l(:quarter_assigned) %></th>
+	<th><%= l(:quarter_closed) %></th>
+	<th><%= l(:quarter_canceled) %></th>
+	<th><%= l(:quarter_kpi) %></th>
+    </th>
+  <% @staff.each do |s| %>
+	<tr>
+	    <td><%= link_to s.name, s %></td>
+	    <td><%= @res_to_table[p[:name]][s.id]["assigned"] %></td>
+	    <td><%= @res_to_table[p[:name]][s.id]["closed"] %></td>
+	    <td><%= @res_to_table[p[:name]][s.id]["canceled"] %></td>	    
+	    <td><%= @res_to_table[p[:name]][s.id]["kpi"] %></td>	    
+	</tr>    
+  <% end %>
+</table>
+<% end %> 
