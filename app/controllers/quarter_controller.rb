@@ -1,5 +1,6 @@
 class QuarterController < ApplicationController
   unloadable
+  include Redmine::I18n
  
  before_filter :find_project, :authorize, :only => :index
  require 'date'
@@ -8,8 +9,8 @@ def prepare
     t = Time.now
     t2 = t - 1.month
     @periods = [
-       {:name => "current week", :period => t.all_week},
-       {:name => "7 days", :period => t..t - 7.day},	  
+       {:name => I18n.t("quarter_current_week"), :period => t.all_week},
+       {:name => I18n.t("quarter_7_days"), :period => t..t - 7.day},	  
        {:name => t.strftime("%B %Y"), :period => t.all_month },
        {:name => t2.strftime("%B %Y"), :period =>  t2.all_month }
     ]
@@ -21,13 +22,26 @@ def find_issues(period, person)
     logger.info(period)
     logger.info(person)
  
-      assigned = @issues.where(issues: { created_on: period, assigned_to_id: person }).count 
+      assigned = @issues.where(issues: { due_date: period, assigned_to_id: person }).count 
 #      logger.info(assigned)
       closed = @issues.where(issues: { closed_on: period, assigned_to_id: person }).count
      canceled = @issues.where(issues: { closed_on: period, assigned_to_id: person, status_id: 6 }).count
+     
+     logger.info(period.methods)
+     logger.info(period.first)
+
+    ends = @issues.where("closed_on > ?", period.first).where(issues: {assigned_to_id: person}).count
+    
+    unless ends == 0  
+	kpi = closed/ends
+	else 
+	kpi = 0
+    end
     issue = { "assigned" => assigned,
     	       "closed" => closed,
-    	       "canceled" => canceled } 
+    	       "canceled" => canceled,
+    	       "ends" => ends,
+    	       "kpi" => kpi } 
      return issue
 end
     

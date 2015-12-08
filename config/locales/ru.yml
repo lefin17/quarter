@@ -7,5 +7,9 @@ ru:
   quarter_assigned: "Назначено"
   quarter_closed: "Закрыто"
   quarter_canceled: "Отклонено"
-  quarter_kpi: "KPI"
+  quarter_kpi: "Эффективность"
+  quarter_ends: "Срок"
+  
+  quarter_7_days: "За последние семь дней"
+  quarter_current_week: "За текущую неделю"
   

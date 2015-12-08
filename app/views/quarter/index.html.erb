@@ -9,15 +9,23 @@
 	<th><%= l(:quarter_assigned) %></th>
 	<th><%= l(:quarter_closed) %></th>
 	<th><%= l(:quarter_canceled) %></th>
+	<th><%= l(:quarter_ends) %></th>
 	<th><%= l(:quarter_kpi) %></th>
     </th>
   <% @staff.each do |s| %>
 	<tr>
 	    <td><%= link_to s.name, s %></td>
-	    <td><%= @res_to_table[p[:name]][s.id]["assigned"] %></td>
-	    <td><%= @res_to_table[p[:name]][s.id]["closed"] %></td>
-	    <td><%= @res_to_table[p[:name]][s.id]["canceled"] %></td>	    
-	    <td><%= @res_to_table[p[:name]][s.id]["kpi"] %></td>	    
+	    <% assigned = @res_to_table[p[:name]][s.id]["assigned"] %>
+	    <% closed = @res_to_table[p[:name]][s.id]["closed"] %>
+	    <% canceled = @res_to_table[p[:name]][s.id]["canceled"] %>
+	    <% ends = @res_to_table[p[:name]][s.id]["ends"] %>
+	    <% kpi = @res_to_table[p[:name]][s.id]["kpi"] %>
+	    
+	    <td><%= assigned %></td>
+	    <td><%= closed %></td>
+	    <td><%= canceled %></td>	    
+	    <td><%= ends %></td>
+	    <td><%= kpi %></td>	    
 	</tr>    
   <% end %>
 </table>

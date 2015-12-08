@@ -8,4 +8,7 @@ en:
   quarter_closed: "Issues Closed"
   quarter_canceled: "Issues Canceled"
   quarter_kpi: KPI
+  quarter_ends: Due to
+  quarter_7_days: In 7 last days
+  quarter_current_week: In current week
   
