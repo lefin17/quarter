@@ -30,7 +30,7 @@ def find_issues(period, person)
      logger.info(period.methods)
      logger.info(period.first)
 
-    ends = @issues.where("closed_on > ?", period.first).where(issues: {assigned_to_id: person}).count
+    ends = @issues.where("status_id<? or closed_on > ?", 5, period.first).where(issues: {assigned_to_id: person}).count
     
     unless ends == 0  
 	kpi = closed/ends
