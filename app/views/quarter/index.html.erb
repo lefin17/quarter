@@ -1,32 +1,9 @@
-<h1>KPI</h1>
+<h1><%= l(:quarter_KPI_header) %></h1>
+<p><%= l(:quarter_KPI_description) %></p>
 
 <% @periods.each do |p| %>
  
 <h2><%= p[:name] %></h2>
-<table class="list issues">
-    <tr>
-	<th><%= l(:quarter_full_name) %></th>
-	<th><%= l(:quarter_assigned) %></th>
-	<th><%= l(:quarter_closed) %></th>
-	<th><%= l(:quarter_canceled) %></th>
-	<th><%= l(:quarter_ends) %></th>
-	<th><%= l(:quarter_kpi) %></th>
-    </th>
-  <% @staff.each do |s| %>
-	<tr>
-	    <td><%= link_to s.name, s %></td>
-	    <% assigned = @res_to_table[p[:name]][s.id]["assigned"] %>
-	    <% closed = @res_to_table[p[:name]][s.id]["closed"] %>
-	    <% canceled = @res_to_table[p[:name]][s.id]["canceled"] %>
-	    <% ends = @res_to_table[p[:name]][s.id]["ends"] %>
-	    <% kpi = @res_to_table[p[:name]][s.id]["kpi"] %>
-	    
-	    <td><%= assigned %></td>
-	    <td><%= closed %></td>
-	    <td><%= canceled %></td>	    
-	    <td><%= ends %></td>
-	    <td><%= kpi %></td>	    
-	</tr>    
-  <% end %>
-</table>
+<%= render :partial => 'quarter_list', :locals => { :data => @row_to_table[p[:id]], :field_name => "user_id", :rows => @staff, :period => p[:period] } %>
+
 <% end %> 

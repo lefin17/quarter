@@ -1,8 +1,8 @@
 Redmine::Plugin.register :redmine_quarter do
   name 'Redmine Quarter plugin'
   author 'Alexey Poliansky'
-  description 'Check workflow in current project of last three months'
-  version '0.0.1'
+  description 'Check workflow in current project for few periods'
+  version '0.0.2'
   url 'https://github.com/lefin17/quarter'
   author_url 'https://github.com/lefin17'
  

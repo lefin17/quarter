@@ -9,7 +9,8 @@ ru:
   quarter_canceled: "Отклонено"
   quarter_kpi: "Эффективность"
   quarter_ends: "Срок"
-  
   quarter_7_days: "За последние семь дней"
   quarter_current_week: "За текущую неделю"
-  
+  quarter_KPI_header: "Показатель эффективности участников проекта"
+  quarter_KPI_description": "По нажатию на число можно перейти к списку задач" 
+  quarter_no_data: "Нет данных"

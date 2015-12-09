@@ -7,8 +7,10 @@ en:
   quarter_assigned: "Assigned"
   quarter_closed: "Issues Closed"
   quarter_canceled: "Issues Canceled"
-  quarter_kpi: KPI
-  quarter_ends: Due to
-  quarter_7_days: In 7 last days
-  quarter_current_week: In current week
-  
+  quarter_kpi: "KPI"
+  quarter_ends: "Due to"
+  quarter_7_days: "In last 7 days"
+  quarter_current_week: "In current week"
+  quarter_KPI_header: "Efficiency of Project members"
+  quarter_KPI_description": "You may use link from digits to view issues" 
+  quarter_no_data: "There is no data"
