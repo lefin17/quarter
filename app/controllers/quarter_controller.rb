@@ -1,8 +1,9 @@
 class QuarterController < ApplicationController
   unloadable
   include Redmine::I18n
+  helper RedmineQuarterHelper
  
- before_filter :find_project, :authorize, :find_issue_statuses, :only => :index
+ before_filter :find_project, :authorize, :only => :index
  require 'date'
   
 def prepare
@@ -23,36 +24,64 @@ def find_issues(period, person)
     assigned = @issues.where(issues: { due_date: period, assigned_to_id: person }).count 
     closed = @issues.where(issues: { closed_on: period, assigned_to_id: person }).count
     canceled = @issues.where(issues: { closed_on: period, assigned_to_id: person, status_id: 6 }).count
-    logger.info(period.methods)
-    logger.info(period.first)
-    open = @issues.where("status_id<?", 5).count
-    ends = @issues.where("status_id<? or closed_on > ?", 5, period.first).where(issues: {assigned_to_id: person}).count
+#    logger.info(period.methods)
+#    logger.info(period.first)
+    opened = @issues.where("status_id<?", 5).count
+    ends = @issues.where(issues: {due_date: period}).where(issues: {assigned_to_id: person}).where("status_id<? or closed_on > ?", 5, period.first).count
     
     unless ends == 0  
 	kpi = closed/ends
 	else 
 	kpi = 0
     end
-    issue = { :assigned => assigned,
-    	      :closed => closed,
-    	      :canceled => canceled,
-              :open => open,
-    	      :ends => ends,
-    	      :kpi => kpi } 
-     return issue
+    is = []
+    is <<  { :name => "assigned",
+		:assigned_to_id => person,
+		:total => assigned 
+		}
+		
+    is <<  { :name => "closed",
+	        :assigned_to_id => person, 
+	        :closed => 1,
+	        :total => closed
+	        }
+	        
+    is << { :name => "canceled",
+		:closed => 1,
+		:assigned_to_id => person,
+		:total => canceled 
+		} 
+		
+    is <<  { :name => "opened",
+		:closed => 0,
+		:assigned_to_id => person,
+		:total => opened
+	        }
+	        	
+    is <<  { :name => "ends",
+		:assigned_to_id => person,
+		:total => ends
+		}		
+    is <<  { :name => "kpi",
+		:assigned_to_id => person, 
+		:total => kpi
+		}
+     return is
 end
     
 def find_period(p)
-    res = {}
-    @staff.each{|s| res[s.id] = find_issues(p[:period], s.id)}
+#    res = {}
+     res = []
+    @staff.each{|s| find_issues(p[:period], s.id).each{ |i| res << i }}
     return res
 end
 
 def index
     res = {}
     prepare 
-    @periods.each{ |p| res[p[:name]] = find_period(p)}  
+    @periods.each{ |p| res[p[:id]] = find_period(p)}  
     @res_to_table = res
+    logger.info(res)
   end
   
 def find_project

@@ -4,6 +4,6 @@
 <% @periods.each do |p| %>
  
 <h2><%= p[:name] %></h2>
-<%= render :partial => 'quarter_list', :locals => { :data => @row_to_table[p[:id]], :field_name => "user_id", :rows => @staff, :period => p[:period] } %>
+<%= render :partial => 'quarter_list', :locals => { :data => @res_to_table[p[:id]], :field_name => :assigned_to_id, :rows => @staff, :period => p[:period] } %>
 
 <% end %> 
