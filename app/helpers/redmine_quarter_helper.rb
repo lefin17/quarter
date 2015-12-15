@@ -34,8 +34,8 @@ end
 
   def aggregate_filter(project, data, options = {})
 # нужно выципить по входным условиям нужную строку, из нее нужные данные и настройки фильтра для списка задач 
-  logger.info("options")
-  logger.info(options)
+ # logger.info("options")
+ # logger.info(options)
     d = {}
     data.each{|row|
         match = 1
@@ -47,17 +47,22 @@ end
 	
 conditions = d[:options] unless d.nil?
 	
-    logger.info(project)
+#    logger.info(project)
     link = "/projects/" + project.identifier + "/issues?set_filter=1";
     conditions.each{ |option|
-    logger.info(option)
+#    logger.info(option)
        link << "&f[]=" + option[:key]
        link << "&op[" + option[:key] + "]="+ url_encode(option[:option]) unless option[:option].nil?
        link << "&v[" + option[:key] + "][]=" + url_encode(option[:value].to_s) unless option[:value].nil?
        link << "&v[" + option[:key] + "][]=" + option[:first] unless option[:first].nil?
        link << "&v[" + option[:key] + "][]=" + option[:last] unless option[:last].nil?
      } unless conditions.nil?
-    link_s = '<a href="'+link+'">'+aggregate(data, options).to_s+'</a>'
+    number = aggregate(data, options)
+    if number > 0 
+    link_s = '<a href="'+link+'">'+number.to_s+'</a>'
+    else 
+    link_s = "-"
+    end
     link_s
   end
   

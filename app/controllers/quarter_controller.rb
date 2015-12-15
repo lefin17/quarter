@@ -36,6 +36,11 @@ def make_option(key, person, period)
       when :assigned # назначенные задания
        options << option_period("due_date", period)    
 
+      when :endless # без указания даты выполнения
+       options << { :key => "due_date",
+    		    :option => "!*",
+    		    }
+       options << option_period("created_on", period)
 	when :canceled # отмененные
           options << { :key => "status_id",
 		       :option => "=",
@@ -66,10 +71,11 @@ def find_issues(period, person)
     closed = @issues.where(issues: { closed_on: period, assigned_to_id: person }).count
     canceled = @issues.where(issues: { closed_on: period, assigned_to_id: person}).where("status_id = ?", 6).count
     opened = @issues.where(issues: {due_date: period}).where(issues: {assigned_to_id: person}).where("status_id<?", 5).count
+    endless = @issues.where(issues: {due_date: nil}).where(issues: {assigned_to_id: person}).where(issues: { created_on: period }).count
     ends = @issues.where(issues: {due_date: period}).where(issues: {assigned_to_id: person}).where("status_id<? or closed_on > ?", 5, period.first).count
     
-    unless assigned == 0  
-	kpi = (100.0*closed)/assigned
+    unless (assigned + endless) == 0  
+	kpi = (100.0*closed)/(assigned + endless)
 	else 
 	kpi = 0
     end
@@ -81,6 +87,11 @@ def find_issues(period, person)
 		:total => assigned,
 		:options => make_option(:assigned, person, period),
     		}
+    is << { :name => "endless", 
+	    :assigned_to_id => person, 
+	    :total => endless,
+	    :options => make_option(:endless, person, period),
+	    }		
     is <<  { :name => "closed",
 	     :assigned_to_id => person, 
 	     :closed => 1,
@@ -119,7 +130,7 @@ def index
     prepare 
     @periods.each{ |p| res[p[:id]] = find_period(p)}  
     @res_to_table = res
-    logger.info(res)
+#    logger.info(res)
   end
   
 def find_project
