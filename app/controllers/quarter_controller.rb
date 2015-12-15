@@ -69,7 +69,7 @@ def find_issues(period, person)
     ends = @issues.where(issues: {due_date: period}).where(issues: {assigned_to_id: person}).where("status_id<? or closed_on > ?", 5, period.first).count
     
     unless assigned == 0  
-	kpi = closed/assigned*100.0
+	kpi = (100.0*closed)/assigned
 	else 
 	kpi = 0
     end
