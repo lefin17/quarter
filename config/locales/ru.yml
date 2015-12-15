@@ -14,3 +14,4 @@ ru:
   quarter_KPI_header: "Показатель эффективности участников проекта"
   quarter_KPI_description: "По нажатию на число можно перейти к списку задач" 
   quarter_no_data: "Нет данных"
+  quarter_opened: "Открыто"

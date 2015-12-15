@@ -7,34 +7,34 @@
 	<th><%= l(:quarter_assigned) %></th>
 	<th><%= l(:quarter_closed) %></th>
 	<th><%= l(:quarter_canceled) %></th>
-	<th><%= l(:quarter_ends) %></th>
+	<th><%= l(:quarter_opened) %></th>
 	<th><%= l(:quarter_kpi) %></th>
     </th>
-  <%
-     from = period.first.to_date
-     till = period.last.to_date    
-    %> 
-  <% for row in rows %>
+    
+    <% for row in rows %>
 	<tr class="<%= cycle("odd", "even") %>">
 	<td class="name"><%= link_to h(row.name), aggregate_path(@project, field_name, row) %></td>
-<!-- Назначено на пользователя -->
-    <%=
-    # aggregate_link data, { field_name => row.id, :name => "assigned" }, aggregate_path(@project, field_name, row, { :due_date => from, :due_date => till }) 
+
+    <%
+     assigned = aggregate_filter @project, data, { :assigned_to_id => row.id, :name => "assigned" }
+     %>
+     <%
+     closed =  aggregate_filter @project, data, { :assigned_to_id => row.id, :name => "closed" }
+     %>
+     <% 
+     canceled =  aggregate_filter @project, data, { :assigned_to_id => row.id, :name => "canceled" }
+     %>
+     <% 
+      opened = aggregate_filter @project, data, { :assigned_to_id => row.id, :name => "opened" }
+     %>
+     <%
+     kpi = aggregate data, { :assigned_to_id => row.id, :name => "kpi" } 
     %>
-    <td>
-    <%= aggregate_filter(@project, data, { field_name => row.id , :name => "closed", :closed => 1 }) %>
-    </td>
-<!-- closed -->
-     
-    <td><%= aggregate_link data, , aggregate_path(@project, field_name, row, { :status_id => "c", :closed_on => from, :closed_on => till}) 
-    %></td>
-<!-- canceled --> 
-    <td><%=  aggregate_link data, { field_name => row.id, :name => "canceled", :closed => 1 }, aggregate_path(@project, field_name, row, {:status_id => 6, :closed_on => from, :closed_on => till}) %></td>
-<!-- opened -->
-    <td><%= aggregate_link data, { field_name => row.id, :name => "opened", :closed => 0 }, aggregate_path(@project, field_name, row, {:status_id => "o", :due_date => from, :due_date => till}) %></td> 
-<!-- kpi --> 
-    <td><%= aggregate_link data, { field_name => row.id, :name => "kpi" }, aggregate_path(@project, field_name, row, {:status_id => "o", :due_date => from, :due_date => till}) %></td>     
-    
+     <td><%= assigned.html_safe %></td>
+     <td><%= closed.html_safe %></td>
+     <td><%= canceled.html_safe %></td>
+     <td><%= opened.html_safe  %></td>
+     <td><%= kpi %></td>
   </tr>    
   <% end %>
 </table>

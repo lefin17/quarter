@@ -14,3 +14,4 @@ en:
   quarter_KPI_header: "Efficiency of Project members"
   quarter_KPI_description: "You may use link from digits to view issues" 
   quarter_no_data: "There is no data"
+  quarter_opened: "Opened"
