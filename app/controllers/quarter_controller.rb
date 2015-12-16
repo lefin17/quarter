@@ -77,14 +77,17 @@ def option_period(key, period)
     end    
     
 def find_issues(period, person)
-
-    assigned = @issues.where("due_date>=? and due_date<=?", period.first.strftime("%Y-%m-%d"), period.last.strftime("%Y-%m-%d")).where(issues: {assigned_to_id: person }).count 
-    closedbefore = @issues.where(issues: { assigned_to_id: person, due_date: period }).where("closed_on<? and closed_on is not null", period.first.to_date).count 
-    closed = @issues.where(issues: { closed_on: period, assigned_to_id: person }).count
-    canceled = @issues.where(issues: { closed_on: period, assigned_to_id: person}).where("status_id = ?", 6).count
-    opened = @issues.where(issues: {due_date: period}).where(issues: {assigned_to_id: person}).where("status_id<?", 5).count
-    endless = @issues.where(issues: {due_date: nil}).where(issues: {assigned_to_id: person}).where(issues: { created_on: period }).count
-    ends = @issues.where(issues: {due_date: period}).where(issues: {assigned_to_id: person}).where("status_id<? or closed_on > ?", 5, period.first).count
+    due_date = "due_date>=? and due_date<=?", period.first.strftime("%Y-%m-%d"), period.last.strftime("%Y-%m-%d")
+    closed_on = "closed_on>=? and closed_on<=?", period.first.strftime("%Y-%m-%d"), period.last.strftime("%Y-%m-%d")
+    created_on = "issues.created_on>=? and issues.created_on<=?", period.first.strftime("%Y-%m-%d"), period.last.strftime("%Y-%m-%d")
+    
+    assigned = @issues.where(due_date).where(issues: {assigned_to_id: person }).count 
+    closedbefore = @issues.where(issues: { assigned_to_id: person }).where(due_date).where("closed_on<? and closed_on is not null", period.first.strftime("%Y-%m-%d")).count 
+    closed = @issues.where(issues: { assigned_to_id: person }).where(closed_on).count
+    canceled = @issues.where(issues: { assigned_to_id: person}).where(closed_on).where("status_id = ?", 6).count
+    opened = @issues.where(due_date).where(issues: {assigned_to_id: person}).where("status_id<?", 5).count
+    endless = @issues.where(issues: {due_date: nil}).where(issues: {assigned_to_id: person}).where(created_on).count
+#    ends = @issues.where(due_date).where(issues: {assigned_to_id: person}).where("status_id<? or closed_on > ?", 5, period.first).count
     
     unless (assigned - closedbefore + endless) == 0  
 	kpi = (100.0*(closed+canceled))/(assigned - closedbefore + endless)
