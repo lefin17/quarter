@@ -78,8 +78,8 @@ def option_period(key, period)
     
 def find_issues(period, person)
     due_date = "due_date>=? and due_date<=?", period.first.strftime("%Y-%m-%d"), period.last.strftime("%Y-%m-%d")
-    closed_on = "closed_on>=? and closed_on<=?", period.first.strftime("%Y-%m-%d"), period.last.strftime("%Y-%m-%d")
-    created_on = "issues.created_on>=? and issues.created_on<=?", period.first.strftime("%Y-%m-%d"), period.last.strftime("%Y-%m-%d")
+    closed_on = "closed_on>=? and closed_on<=?", period.first.strftime("%Y-%m-%d"), period.last.strftime("%Y-%m-%d 23:59:00")
+    created_on = "issues.created_on>=? and issues.created_on<=?", period.first.strftime("%Y-%m-%d"), period.last.strftime("%Y-%m-%d 23:59:59")
     
     assigned = @issues.where(due_date).where(issues: {assigned_to_id: person }).count 
     closedbefore = @issues.where(issues: { assigned_to_id: person }).where(due_date).where("closed_on<? and closed_on is not null", period.first.strftime("%Y-%m-%d")).count 
