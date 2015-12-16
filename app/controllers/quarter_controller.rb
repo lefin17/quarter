@@ -11,7 +11,7 @@ def prepare
     t2 = t - 1.month
     @periods = [
        {:id => 1, :name => I18n.t("quarter_current_week"), :period => t.all_week},
-       {:id => 2, :name => I18n.t("quarter_7_days"), :period => t..t - 7.day},	  
+       {:id => 2, :name => I18n.t("quarter_7_days"), :period => t - 7.day..t},	  
        {:id => 3, :name => t.strftime("%B %Y"), :period => t.all_month },
        {:id => 4, :name => t2.strftime("%B %Y"), :period =>  t2.all_month }
     ]
