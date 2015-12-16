@@ -1,11 +1,10 @@
-# quarter
-This is a plugin for redmine for analisys workflow of issues in current project. 
+# quarter redmine issues in project analysis
+plugin for redmine for analisys workflow of issues in current project. 
 not available 4 periods 
   - current week, 
   - 7 days (now time and minus 7 days)
   - current month
   - previous month
 
-ends - issue that ends in current period and not closed before
-effeciency - closed/ends
-
+Quantity of issues have link to issue list... 
+Tested on redmine 2.6.0 and ruby 2.0.0
