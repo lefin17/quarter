@@ -78,7 +78,7 @@ def option_period(key, period)
     
 def find_issues(period, person)
 
-    assigned = @issues.where(issues: { due_date: period, assigned_to_id: person }).count 
+    assigned = @issues.where("due_date>=? and due_date<=?", period.first.strftime("%Y-%m-%d"), period.last.strftime("%Y-%m-%d")).where(issues: {assigned_to_id: person }).count 
     closedbefore = @issues.where(issues: { assigned_to_id: person, due_date: period }).where("closed_on<? and closed_on is not null", period.first.to_date).count 
     closed = @issues.where(issues: { closed_on: period, assigned_to_id: person }).count
     canceled = @issues.where(issues: { closed_on: period, assigned_to_id: person}).where("status_id = ?", 6).count
