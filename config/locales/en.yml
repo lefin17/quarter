@@ -16,3 +16,4 @@ en:
   quarter_no_data: "There is no data"
   quarter_opened: "Opened"
   quarter_endless: "No due to"
+  quarter_closedbefore: "Closed before"

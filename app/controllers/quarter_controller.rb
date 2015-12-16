@@ -28,6 +28,17 @@ def make_option(key, person, period)
     options = []
     options << assigned_id
       case key
+      when :closedbefore 
+         options << { :key => "status_id",
+        	      :option => "c" }
+        	      start = period.first - 1.day
+         options << { :key => "closed_on",
+        	      :option => "<=",
+        	      :value => start.strftime("%Y-%m-%d")
+        	      }
+        options << option_period("due_date", period)
+    		    
+        
       when :closed # закрытые за период (включая отмененные)
        options  << { :key => "status_id",
 		     :option => "c" }
@@ -68,14 +79,15 @@ def option_period(key, period)
 def find_issues(period, person)
 
     assigned = @issues.where(issues: { due_date: period, assigned_to_id: person }).count 
+    closedbefore = @issues.where(issues: { assigned_to_id: person, due_date: period }).where("closed_on<? and closed_on is not null", period.first.to_date).count 
     closed = @issues.where(issues: { closed_on: period, assigned_to_id: person }).count
     canceled = @issues.where(issues: { closed_on: period, assigned_to_id: person}).where("status_id = ?", 6).count
     opened = @issues.where(issues: {due_date: period}).where(issues: {assigned_to_id: person}).where("status_id<?", 5).count
     endless = @issues.where(issues: {due_date: nil}).where(issues: {assigned_to_id: person}).where(issues: { created_on: period }).count
     ends = @issues.where(issues: {due_date: period}).where(issues: {assigned_to_id: person}).where("status_id<? or closed_on > ?", 5, period.first).count
     
-    unless (assigned + endless) == 0  
-	kpi = (100.0*closed)/(assigned + endless)
+    unless (assigned - closedbefore + endless) == 0  
+	kpi = (100.0*(closed+canceled))/(assigned - closedbefore + endless)
 	else 
 	kpi = 0
     end
@@ -98,6 +110,12 @@ def find_issues(period, person)
 	     :total => closed,
 	     :options => make_option(:closed, person, period)
 	     }
+    is << { :name => "closedbefore",
+	    :assigned_to_id => person, 
+	    :closed => 1,
+	    :total => closedbefore, 
+	    :options => make_option(:closedbefore, person, period)
+	    }
     is << { :name => "canceled",
 	    :closed => 1,
 	    :assigned_to_id => person,

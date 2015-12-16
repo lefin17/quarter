@@ -5,6 +5,7 @@
     <tr>
 	<th><%= l(:quarter_full_name) %></th>
 	<th><%= l(:quarter_assigned) %></th>
+	<th><%= l(:quarter_closedbefore) %></th>
 	<th><%= l(:quarter_closed) %></th>
 	<th><%= l(:quarter_canceled) %></th>
 	<th><%= l(:quarter_opened) %></th>
@@ -18,19 +19,15 @@
 
     <%
      assigned = aggregate_filter @project, data, { :assigned_to_id => row.id, :name => "assigned" }
-     %>
-     <%
      closed =  aggregate_filter @project, data, { :assigned_to_id => row.id, :name => "closed" }
-     %>
-     <% 
+     closedbefore =  aggregate_filter @project, data, { :assigned_to_id => row.id, :name => "closedbefore" }
      canceled =  aggregate_filter @project, data, { :assigned_to_id => row.id, :name => "canceled" }
-     %>
-     <% 
-      opened = aggregate_filter @project, data, { :assigned_to_id => row.id, :name => "opened" }
+     opened = aggregate_filter @project, data, { :assigned_to_id => row.id, :name => "opened" }
      kpi = aggregate data, { :assigned_to_id => row.id, :name => "kpi" } 
      endless = aggregate_filter @project, data, { :assigned_to_id => row.id, :name => "endless" }
     %>
      <td><%= assigned.html_safe %></td>
+     <td><%= closedbefore.html_safe %></td>
      <td><%= closed.html_safe %></td>
      <td><%= canceled.html_safe %></td>
      <td><%= opened.html_safe  %></td>

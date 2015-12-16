@@ -16,3 +16,4 @@ ru:
   quarter_no_data: "Нет данных"
   quarter_opened: "Открыто"
   quarter_endless: "Без срока"
+  quarter_closedbefore: "Закрыты ранее"

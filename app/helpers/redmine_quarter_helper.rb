@@ -1,5 +1,5 @@
 module RedmineQuarterHelper
-require 'cgi'
+# require 'cgi'
 # copy from report_helper.rb
 # 2015-12-09
 # 2015-12-10 added aggregate_filter
