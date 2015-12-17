@@ -16,7 +16,9 @@ def prepare
        {:id => 4, :name => t2.strftime("%B %Y"), :period =>  t2.all_month }
     ]
     @staff = Principal.member_of(@project).sort	
-    @issues = Issue.on_active_project	
+#    @issues = Issue.on_active_project
+    @issues = Issue.cross_project_scope(@project)
+#    logger.info(Issue.methods)
     end
 
 def make_option(key, person, period)
