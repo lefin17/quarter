@@ -17,7 +17,7 @@ def prepare
     ]
     @staff = Principal.member_of(@project).sort	
 #    @issues = Issue.on_active_project
-    @issues = Issue.cross_project_scope(@project)
+    @issues = Issue.cross_project_scope(@project, 'descendants')
 #    logger.info(Issue.methods)
     end
 
